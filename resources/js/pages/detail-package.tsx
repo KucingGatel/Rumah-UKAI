@@ -3,9 +3,9 @@ import type { SharedData } from '@/types';
 import { useState, useEffect, useRef } from 'react';
 import Navbar from '@/components/navbar';
 import { NavFooter } from '@/components/nav-footer';
-import { Search } from 'lucide-react';
+import { Archive, File, FilesIcon, FileStack, FileText, Search, Timer } from 'lucide-react';
 
-export default function Packages() {
+export default function DetailPackage() {
     const { auth } = usePage<SharedData>().props;
     const [scrollY, setScrollY] = useState(0);
     const heroRef = useRef<HTMLDivElement>(null);
@@ -26,6 +26,12 @@ export default function Packages() {
             name: 'Paket Gratis Februari',
             price: 'Gratis',
             category: ['Free', 'Klinis', 'Farmateknologi'],
+            subjects: ['Hapalan klinis', 'Farmakoekonomi', 'Manajemen Farmasi', 'Perhitungan Industri'],
+            amount: '10 Try Out',
+            question: '100 Soal',
+            duration: '120 Menit/Try Out',
+            attemp: '3 Attemp/Try Out',
+            closed: '31 Januari 2026',
         },
         {
             id: 2,
@@ -33,6 +39,12 @@ export default function Packages() {
             name: 'Paket Silver',
             price: 'Rp 599.000',
             category: ['Akses 150+ Video', 'Latihan Soal Lengkap', 'Live Session 2x/bulan', 'Support Priority'],
+            subjects: ['Hapalan klinis', 'Farmakoekonomi', 'Manajemen Farmasi', 'Perhitungan Industri'],
+            amount: '10 Try Out',
+            question: '100 Soal',
+            duration: '120 Menit/Try Out',
+            attemp: '3 Attemp/Try Out',
+            closed: '31 Januari 2026',
         },
         {
             id: 3,
@@ -40,6 +52,12 @@ export default function Packages() {
             name: 'Paket Gold',
             price: 'Rp 999.000',
             category: ['Akses 300+ Video', 'Latihan Soal Premium', 'Live Session 4x/bulan', 'Mentor 1:1', 'Sertifikat'],
+            subjects: ['Hapalan klinis', 'Farmakoekonomi', 'Manajemen Farmasi', 'Perhitungan Industri'],
+            amount: '10 Try Out',
+            question: '100 Soal',
+            duration: '120 Menit/Try Out',
+            attemp: '3 Attemp/Try Out',
+            closed: '31 Januari 2026',
         },
         {
             id: 4,
@@ -47,6 +65,12 @@ export default function Packages() {
             name: 'Paket Platinum',
             price: 'Rp 1.499.000',
             category: ['Akses Semua Video', 'Soal Unlimited', 'Live Session Unlimited', 'Mentor 1:1', 'Sertifikat', 'Akses Selamanya'],
+            subjects: ['Hapalan klinis', 'Farmakoekonomi', 'Manajemen Farmasi', 'Perhitungan Industri'],
+            amount: '10 Try Out',
+            question: '100 Soal',
+            duration: '120 Menit/Try Out',
+            attemp: '3 Attemp/Try Out',
+            closed: '31 Januari 2026',
         },
     ];
 
@@ -57,55 +81,75 @@ export default function Packages() {
                 <Navbar />
 
                 {/* Hero Section */}
-                <div
-                    ref={heroRef}
-                    className='bg-orange-400/80 object-cover relative overflow-hidden'
+                <img
+                    src={packages[0].image}
+                    className='bg-orange-400/80 object-cover relative overflow-hidden w-full h-100'
                     style={{
                         transform: `translateY(${scrollY * 0.5}px)`,
                     }}
                 >
-                    <div className="opacity-50">
-                        <img src="/assets/images/awan.svg" alt="Awan" className="w-1/2 sm:w-1/2 md:w-1/2 lg:w-1/2 absolute bottom-0 -left-50 object-cover" />
-                        <img src="/assets/images/awan.svg" alt="Awan" className="w-1/2 sm:w-1/2 md:w-1/2 lg:w-1/2 -scale-x-100 absolute bottom-0 -right-50 object-cover" />
-                    </div>
-                    <section className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
-                        <div className="text-center">
-                            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-stone-100 mb-4">
-                                Paket Rumah UKAI
-                            </h1>
-                            <p className="text-stone-100 text-base mb-8 max-w-2xl mx-auto">
-                                Paket menarik yang bisa kamu temukan untuk memenuhi kebutuhan ujian dalam bentuk modul yang disediakan!
-                            </p>
-                        </div>
-                        <div className="flex justify-center mt-12">
-                            <img
-                                src="/assets/images/mascot/RUI_hold_Book_Rumah_UKAI.svg"
-                                alt="Rumah UKAI Mascot"
-                                className="w-48 h-48 sm:w-64 sm:h-64"
-                            />
-                        </div>
-                    </section>
-                </div>
+                </img>
 
-                <div className="relative bg-stone-50 -mt-12 pt-12">
-                    {/* Pilih Paket */}
-                    <section className="max-w-7xl my-20 mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10 -mt-12">
-                        {/* Search Bar */}
-                        <div className="mb-12">
-                            <div className="flex flex-col sm:flex-row gap-3">
-                                <div className="flex-1 relative">
-                                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                                    <input
-                                        type="text"
-                                        placeholder="Apa Yang Anda Cari?"
-                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 bg-white text-gray-400"
-                                    />
-                                </div>
-                                <button className="px-6 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-50 transition whitespace-nowrap">
-                                    Filter Kategori
-                                </button>
+                <div className="relative bg-gray-200">
+                    <section className="my-20 px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10 -mt-12 bg-stone-50">
+                        <div className='max-w-7xl mx-auto'>
+                            <div className='grid grid-cols-1 lg:grid-cols-3 gap-10'>
+                                {/* details */}
+                                <section className='lg:col-span-2'>
+                                    <h2 className="text-3xl sm:text-4xl mb-6 font-bold text-orange-400" >{packages[0].name}</h2>
+                                    <div className="mb-6 flex flex-wrap gap-2">
+                                        {packages[0].category.map((category, index) => {
+                                            const badgeColors = ['bg-amber-200', 'bg-teal-300', 'bg-pink-300', 'bg-blue-200', 'bg-green-200', 'bg-purple-200'];
+                                            return (
+                                                <span
+                                                    key={index}
+                                                    className={`${badgeColors[index % badgeColors.length]} text-gray-700 text-base font-semibold px-3 py-1 rounded-lg`}
+                                                >
+                                                    {category}
+                                                </span>
+                                            );
+                                        })}
+                                    </div>
+                                    <p className="text-gray-600 font-light text-justify mb-6">{packages[0].subjects.join(', ')}</p>
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-8">
+                                        <div className='flex items-center gap-3'>
+                                            <Archive size={30} className='text-amber-800' />
+                                            <p className='text-amber-800 font-semibold text-base'>{packages[0].amount}</p>
+                                        </div>
+                                        <div className='flex items-center gap-3'>
+                                            <FileText size={30} className='text-amber-800' />
+                                            <p className='text-amber-800 font-semibold text-base'>{packages[0].question}</p>
+                                        </div>
+                                        <div className='flex items-center gap-3'>
+                                            <Timer size={30} className='text-amber-800' />
+                                            <p className='text-amber-800 font-semibold text-base'>{packages[0].duration}</p>
+                                        </div>
+                                        <div className='flex items-center gap-3'>
+                                            <FilesIcon size={30} className='text-amber-800' />
+                                            <p className='text-amber-800 font-semibold text-base'>{packages[0].attemp}</p>
+                                        </div>
+                                    </div>
+                                </section>
+                                {/* harga */}
+                                <section className='lg:col-span-1'>
+                                    <div className="bg-gray-500 rounded-lg p-6 flex flex-col gap-6 sticky top-24">
+                                        <h3 className="text-lg font-light text-stone-50">Harga</h3>
+                                        <h1 className="text-3xl font-bold text-stone-50">{packages[0].price}</h1>
+                                        <button className="w-full bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-6 rounded-lg transition">
+                                            Pilih Paket
+                                        </button>
+                                        <button className="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-lg transition">
+                                            Pelajari Lebih Lanjut
+                                        </button>
+                                        <p className='text-stone-50'>Ditutup:<br />{packages[0].closed}</p>
+                                    </div>
+                                </section>
                             </div>
                         </div>
+                    </section>
+
+                    {/* Pilih Paket */}
+                    <section className="max-w-7xl my-20 mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10 -mt-12">
 
                         <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
                             Rekomendasi
@@ -151,7 +195,7 @@ export default function Packages() {
                                             </div>
                                             {/* Button */}
                                             <Link
-                                                href="/detail-package"
+                                                href="/details-package"
                                                 type="button"
                                                 className="w-auto bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-lg transition"
                                             >

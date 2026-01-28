@@ -28,7 +28,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
                 <Form {...email.form()}>
                     {({ processing, errors }) => (
                         <>
-                            <div className="grid gap-2">
+                            <div className="grid gap-2 text-gray-500">
                                 <Label htmlFor="email">Email address</Label>
                                 <Input
                                     id="email"
@@ -44,7 +44,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
 
                             <div className="my-6 flex items-center justify-start">
                                 <Button
-                                    className="w-full"
+                                    className="w-full bg-orange-400 text-stone-50 font-bold hover:bg-orange-300 hover:shadow-lg transition-all duration-300"
                                     disabled={processing}
                                     data-test="email-password-reset-link-button"
                                 >

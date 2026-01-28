@@ -60,7 +60,7 @@ export default function Landing() {
     ];
 
     return (
-        <>
+        <div className='scroll-smooth'>
             <Head title="Rumah UKAI - Simulasi Ujian & Try Out Terbaik" />
             <div className="min-h-screen font-poppins bg-stone-50">
                 <Navbar />
@@ -287,6 +287,6 @@ export default function Landing() {
                 {/* Footer */}
                 <NavFooter />
             </div>
-        </>
+        </div>
     );
 }

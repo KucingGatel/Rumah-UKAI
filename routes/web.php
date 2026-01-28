@@ -14,6 +14,18 @@ Route::get('/packages', function () {
     return Inertia::render('packages');
 })->name('packages');
 
+Route::get('/tryoutproduct', function () {
+    return Inertia::render('tryoutproduct');
+})->name('tryout');
+
+Route::get('/blog', function () {
+    return Inertia::render('blog');
+})->name('blog');
+
+Route::get('/detail-package', function () {
+    return Inertia::render('detail-package');
+})->name('detail-package');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');

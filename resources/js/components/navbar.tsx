@@ -1,17 +1,25 @@
 import { Link, usePage } from '@inertiajs/react';
 import type { SharedData } from '@/types';
 import { useState } from 'react';
+import { CircleUser } from 'lucide-react';
 
 export default function Navbar() {
-    const { auth } = usePage<SharedData>().props;
+    const { auth, ziggy } = usePage<SharedData>().props;
     const [isOpen, setIsOpen] = useState(false);
+    const currentUrl = (ziggy as any)?.url || '/';
 
     const toggleMenu = () => setIsOpen(!isOpen);
 
     const navLinks = [
         { label: 'Packages', href: '/packages' },
-        { label: 'Try Out', href: '/#tryout' },
-        { label: 'Blog', href: '/#blog' },
+        { label: 'Try Out', href: '/tryoutproduct' },
+        { label: 'Blog', href: '/blog' },
+    ];
+
+    const Profile = [
+        { label: 'Dashboard', href: '/dashboard' },
+        { label: 'Profile', href: '/profile' },
+        { label: 'Logout', href: '/logout' },
     ];
 
     return (
@@ -32,26 +40,33 @@ export default function Navbar() {
 
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex items-center gap-8">
-                        {navLinks.map((link) => (
-                            <a
-                                key={link.label}
-                                href={link.href}
-                                className="text-gray-700 hover:text-orange-500 transition font-medium"
-                            >
-                                {link.label}
-                            </a>
-                        ))}
+                        {navLinks.map((link) => {
+                            const isActive = currentUrl === link.href || currentUrl.startsWith(link.href + '/');
+                            return (
+                                <a
+                                    key={link.label}
+                                    href={link.href}
+                                    className={`font-medium transition ${
+                                        isActive
+                                            ? 'text-orange-500 border-b-2 border-orange-500'
+                                            : 'text-gray-700 hover:text-orange-500'
+                                    }`}
+                                >
+                                    {link.label}
+                                </a>
+                            );
+                        })}
                     </nav>
 
                     {/* Auth Buttons - Desktop */}
                     <div className="hidden md:flex items-center gap-3">
                         {auth.user ? (
-                            <Link
-                                href="/dashboard"
-                                className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition font-medium"
+                            <button
+                                onClick={toggleMenu}
+                                className="px-6 py-2"
                             >
-                                Dashboard
-                            </Link>
+                                <CircleUser className="inline-block mr-2 text-gray-500" size={30} absoluteStrokeWidth={true} />
+                            </button>
                         ) : (
                             <>
                                 <Link
@@ -97,16 +112,23 @@ export default function Navbar() {
                 {isOpen && (
                     <nav className="md:hidden mt-4 pb-4 border-t border-gray-200 pt-4">
                         <div className="flex flex-col gap-3">
-                            {navLinks.map((link) => (
+                            {navLinks.map((link) => {
+                            const isActive = currentUrl === link.href || currentUrl.startsWith(link.href + '/');
+                            return (
                                 <a
                                     key={link.label}
                                     href={link.href}
-                                    className="text-gray-700 hover:text-orange-500 transition font-medium py-2"
+                                    className={`font-medium py-2 transition ${
+                                        isActive
+                                            ? 'text-orange-500 border-l-4 border-orange-500 pl-2'
+                                            : 'text-gray-700 hover:text-orange-500'
+                                    }`}
                                     onClick={() => setIsOpen(false)}
                                 >
                                     {link.label}
                                 </a>
-                            ))}
+                            );
+                        })}
                             <div className="border-t border-gray-200 pt-3 mt-3 flex flex-col gap-2">
                                 {auth.user ? (
                                     <Link

@@ -5,7 +5,7 @@ import Navbar from '@/components/navbar';
 import { NavFooter } from '@/components/nav-footer';
 import { Search } from 'lucide-react';
 
-export default function Packages() {
+export default function TryoutProduct() {
     const { auth } = usePage<SharedData>().props;
     const [scrollY, setScrollY] = useState(0);
     const heroRef = useRef<HTMLDivElement>(null);
@@ -19,32 +19,28 @@ export default function Packages() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const packages = [
+    const TryoutProduct = [
         {
             id: 1,
-            image: '/assets/images/test2.png',
-            name: 'Paket Gratis Februari',
-            price: 'Gratis',
+            name: 'Try Out Gratis Februari',
+            price: 'Rp 0',
             category: ['Free', 'Klinis', 'Farmateknologi'],
         },
         {
             id: 2,
-            image: '/assets/images/test2.png',
-            name: 'Paket Silver',
+            name: 'Try Out Silver',
             price: 'Rp 599.000',
             category: ['Akses 150+ Video', 'Latihan Soal Lengkap', 'Live Session 2x/bulan', 'Support Priority'],
         },
         {
             id: 3,
-            image: '/assets/images/test2.png',
-            name: 'Paket Gold',
+            name: 'Try Out Gold',
             price: 'Rp 999.000',
             category: ['Akses 300+ Video', 'Latihan Soal Premium', 'Live Session 4x/bulan', 'Mentor 1:1', 'Sertifikat'],
         },
         {
             id: 4,
-            image: '/assets/images/test2.png',
-            name: 'Paket Platinum',
+            name: 'Try Out Platinum',
             price: 'Rp 1.499.000',
             category: ['Akses Semua Video', 'Soal Unlimited', 'Live Session Unlimited', 'Mentor 1:1', 'Sertifikat', 'Akses Selamanya'],
         },
@@ -52,7 +48,7 @@ export default function Packages() {
 
     return (
         <>
-            <Head title="Paket Rumah UKAI - Simulasi Ujian & Try Out Terbaik" />
+            <Head title="Try Out Rumah UKAI - Simulasi Ujian & Try Out Terbaik" />
             <div className="min-h-screen font-poppins bg-stone-50">
                 <Navbar />
 
@@ -71,10 +67,10 @@ export default function Packages() {
                     <section className="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
                         <div className="text-center">
                             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-stone-100 mb-4">
-                                Paket Rumah UKAI
+                                Try Out Rumah UKAI
                             </h1>
                             <p className="text-stone-100 text-base mb-8 max-w-2xl mx-auto">
-                                Paket menarik yang bisa kamu temukan untuk memenuhi kebutuhan ujian dalam bentuk modul yang disediakan!
+                                Try Out menarik yang bisa kamu temukan untuk memenuhi kebutuhan ujian dalam bentuk modul yang disediakan!
                             </p>
                         </div>
                         <div className="flex justify-center mt-12">
@@ -88,7 +84,7 @@ export default function Packages() {
                 </div>
 
                 <div className="relative bg-stone-50 -mt-12 pt-12">
-                    {/* Pilih Paket */}
+                    {/* Pilih Try Out */}
                     <section className="max-w-7xl my-20 mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10 -mt-12">
                         {/* Search Bar */}
                         <div className="mb-12">
@@ -112,14 +108,14 @@ export default function Packages() {
                         </h2>
                         <p className="text-base font-regular text-gray-400 mb-20">Kami bantu berikan rekomendasi sembari kamu mencari pilihanmu!</p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                            {packages.map((pkg) => (
+                            {TryoutProduct.map((pkg) => (
                                 <div
                                     key={pkg.id}
                                     className="rounded-xl overflow-hidden shadow-lg bg-white"
                                 >
-                                    {/* cover */}
+                                    {/* Header with Orange Background and Mascot */}
                                     <img
-                                        src={pkg.image}
+                                        src="/assets/images/test2.png"
                                         alt="Rumah UKAI Mascot"
                                         className="w-full h-32 object-cover"
                                     />
@@ -150,13 +146,18 @@ export default function Packages() {
                                                 <p className="text-gray-700 font-semibold text-sm">31 Januari 2026</p>
                                             </div>
                                             {/* Button */}
-                                            <Link
-                                                href="/detail-package"
+                                            <button
                                                 type="button"
                                                 className="w-auto bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-lg transition"
                                             >
                                                 {pkg.price}
-                                            </Link>
+                                            </button>
+                                            <dialog className="modal">
+                                                <form method="dialog" className="modal-box">
+                                                    <h3 className="font-bold text-lg">Hello!</h3>
+                                                    <p className="py-4">Press ESC key or click outside to close</p>
+                                                </form>
+                                            </dialog>
                                         </div>
                                     </div>
                                 </div>
@@ -182,7 +183,7 @@ export default function Packages() {
                         </div>
                     </section>
 
-                    <NavFooter />
+                    <NavFooter></NavFooter>
                 </div>
             </div>
         </>
