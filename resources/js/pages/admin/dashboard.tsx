@@ -25,7 +25,14 @@ const chartData2 = [
     { name: 'Sunday', value: 30 },
 ];
 
-export default function Dashboard() {
+interface DashboardProps {
+    totalUsers: number;
+    totalOrders?: number;
+    totalPackages?: number;
+    totalQuestions?: number;
+}
+
+export default function Dashboard({ totalUsers, totalOrders = 0, totalPackages = 0, totalQuestions = 0 }: DashboardProps) {
     return (
         <>
             <Head title="Admin Dashboard - Rumah UKAI" />
@@ -40,7 +47,7 @@ export default function Dashboard() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
                         <StatCard
                             title="Total User"
-                            value={200}
+                            value={totalUsers}
                             change="↑ 2% increase"
                             icon={<Users size={24} className="text-white" />}
                             color="orange"

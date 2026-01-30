@@ -6,6 +6,7 @@ use Inertia\Inertia;
 
 class BlogController extends Controller
 {
+    // public
     public function show($id)
     {
         $blogs = [
@@ -42,7 +43,7 @@ class BlogController extends Controller
             abort(404, 'Blog not found');
         }
 
-        return Inertia::render('detail-blog', [
+        return Inertia::render('blogdetail', [
             'blog' => $blog,
             'blogs' => $blogs,
         ]);

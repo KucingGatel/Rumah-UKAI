@@ -5,6 +5,12 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
+
+Route::middleware('auth')->group(function () {
+    Route::get('admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+});
 
 Route::get('/', function () {
     return Inertia::render('landing', [
@@ -18,6 +24,8 @@ Route::get('/home', function () {
     ]);
 })->name('home.index');
 
+Route::resource("users", UserController::class);
+
 Route::get('/packages', function () {
     return Inertia::render('packages');
 })->name('packages');
@@ -26,7 +34,7 @@ Route::get('/tryoutproduct', function () {
     return Inertia::render('tryoutproduct');
 })->name('tryout');
 
-Route::get('blog', function () {
+Route::get('/blog', function () {
     return Inertia::render('blog');
 })->name('blog');
 
@@ -66,4 +74,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 });
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';

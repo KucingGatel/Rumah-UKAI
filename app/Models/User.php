@@ -13,6 +13,10 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
 
+    // protected $primaryKey = 'id';
+    // public $incrementing = true;
+    // protected $keyType = 'int';
+    public $timestamps = false;
     /**
      * The attributes that are mass assignable.
      *
@@ -48,5 +52,23 @@ class User extends Authenticatable
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
         ];
+    }
+
+    // Relasi ke Orders
+    public function orders()
+    {
+        return $this->hasMany(orders::class);
+    }
+
+    // Relasi ke Quiz Attempts
+    public function quizAttempts()
+    {
+        return $this->hasMany(quizattemp::class);
+    }
+
+    // Relasi ke Packages (Many to Many)
+    public function packages()
+    {
+        return $this->belongsToMany(packages::class, 'user_packages', 'user_id', 'paket_id');
     }
 }
