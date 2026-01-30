@@ -5,10 +5,30 @@ import Navbar from '@/components/navbar';
 import { NavFooter } from '@/components/nav-footer';
 import { Search } from 'lucide-react';
 
+interface Package {
+    id: number;
+    image: string;
+    name: string;
+    price: string;
+    category: string[];
+    subjects: string[];
+    amount: string;
+    question: string;
+    duration: string;
+    attemp: string;
+    closed: string;
+}
+
+interface DetailPageProps {
+    package: Package;
+    packages: Package[];
+}
+
 export default function Packages() {
     const { auth } = usePage<SharedData>().props;
     const [scrollY, setScrollY] = useState(0);
     const heroRef = useRef<HTMLDivElement>(null);
+    const { package: currentPackage, packages } = usePage<SharedData & DetailPageProps>().props;
 
     useEffect(() => {
         const handleScroll = () => {
@@ -18,37 +38,6 @@ export default function Packages() {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-
-    const packages = [
-        {
-            id: 1,
-            image: '/assets/images/test2.png',
-            name: 'Paket Gratis Februari',
-            price: 'Gratis',
-            category: ['Free', 'Klinis', 'Farmateknologi'],
-        },
-        {
-            id: 2,
-            image: '/assets/images/test2.png',
-            name: 'Paket Silver',
-            price: 'Rp 599.000',
-            category: ['Akses 150+ Video', 'Latihan Soal Lengkap', 'Live Session 2x/bulan', 'Support Priority'],
-        },
-        {
-            id: 3,
-            image: '/assets/images/test2.png',
-            name: 'Paket Gold',
-            price: 'Rp 999.000',
-            category: ['Akses 300+ Video', 'Latihan Soal Premium', 'Live Session 4x/bulan', 'Mentor 1:1', 'Sertifikat'],
-        },
-        {
-            id: 4,
-            image: '/assets/images/test2.png',
-            name: 'Paket Platinum',
-            price: 'Rp 1.499.000',
-            category: ['Akses Semua Video', 'Soal Unlimited', 'Live Session Unlimited', 'Mentor 1:1', 'Sertifikat', 'Akses Selamanya'],
-        },
-    ];
 
     return (
         <>
@@ -151,7 +140,7 @@ export default function Packages() {
                                             </div>
                                             {/* Button */}
                                             <Link
-                                                href="/detail-package"
+                                                href={`/detail-package/${pkg.id}`}
                                                 type="button"
                                                 className="w-auto bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-lg transition"
                                             >

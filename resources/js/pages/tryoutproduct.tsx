@@ -3,11 +3,19 @@ import type { SharedData } from '@/types';
 import { useState, useEffect, useRef } from 'react';
 import Navbar from '@/components/navbar';
 import { NavFooter } from '@/components/nav-footer';
-import { Search } from 'lucide-react';
+import { Archive, File, FileIcon, FileText, Search, ShoppingCart, Timer } from 'lucide-react';
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogFooter,
+} from '@/components/ui/dialog';
 
 export default function TryoutProduct() {
     const { auth } = usePage<SharedData>().props;
     const [scrollY, setScrollY] = useState(0);
+    const [openDialog, setOpenDialog] = useState<number | null>(null);
     const heroRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -22,29 +30,42 @@ export default function TryoutProduct() {
     const TryoutProduct = [
         {
             id: 1,
-            name: 'Try Out Gratis Februari',
-            price: 'Rp 0',
+            image: '/assets/images/test2.png',
+            name: 'Paket Gratis Februari',
+            price: 'Gratis',
             category: ['Free', 'Klinis', 'Farmateknologi'],
         },
         {
             id: 2,
-            name: 'Try Out Silver',
+            image: '/assets/images/test2.png',
+            name: 'Paket Silver',
             price: 'Rp 599.000',
             category: ['Akses 150+ Video', 'Latihan Soal Lengkap', 'Live Session 2x/bulan', 'Support Priority'],
         },
         {
             id: 3,
-            name: 'Try Out Gold',
+            image: '/assets/images/test2.png',
+            name: 'Paket Gold',
             price: 'Rp 999.000',
             category: ['Akses 300+ Video', 'Latihan Soal Premium', 'Live Session 4x/bulan', 'Mentor 1:1', 'Sertifikat'],
         },
         {
             id: 4,
-            name: 'Try Out Platinum',
+            image: '/assets/images/test2.png',
+            name: 'Paket Platinum',
             price: 'Rp 1.499.000',
             category: ['Akses Semua Video', 'Soal Unlimited', 'Live Session Unlimited', 'Mentor 1:1', 'Sertifikat', 'Akses Selamanya'],
         },
     ];
+
+    const handleBuyTryout = () => {
+        if (!auth.user) {
+            alert('Anda harus login terlebih dahulu');
+            window.location.href = '/login';
+        } else {
+            window.location.href = `/tryout`;
+        }
+    }
 
     return (
         <>
@@ -109,58 +130,137 @@ export default function TryoutProduct() {
                         <p className="text-base font-regular text-gray-400 mb-20">Kami bantu berikan rekomendasi sembari kamu mencari pilihanmu!</p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                             {TryoutProduct.map((pkg) => (
-                                <div
-                                    key={pkg.id}
-                                    className="rounded-xl overflow-hidden shadow-lg bg-white"
-                                >
-                                    {/* Header with Orange Background and Mascot */}
-                                    <img
-                                        src="/assets/images/test2.png"
-                                        alt="Rumah UKAI Mascot"
-                                        className="w-full h-32 object-cover"
-                                    />
+                                <Dialog key={pkg.id} open={openDialog === pkg.id} onOpenChange={(open) => setOpenDialog(open ? pkg.id : null)}>
+                                    <div
+                                        className="rounded-xl overflow-hidden shadow-lg bg-white"
+                                    >
+                                        {/* Header with Orange Background and Mascot */}
+                                        <img
+                                            src="/assets/images/test2.png"
+                                            alt="Rumah UKAI Mascot"
+                                            className="w-full h-32 object-cover"
+                                        />
 
-                                    {/* Content Area */}
-                                    <div className="p-6">
-                                        <h3 className="text-lg font-bold mb-4 text-orange-500">{pkg.name}</h3>
+                                        {/* Content Area */}
+                                        <div className="p-6">
+                                            <h3 className="text-lg font-bold mb-4 text-orange-500">{pkg.name}</h3>
 
-                                        {/* Category Badges */}
-                                        <div className="mb-6 flex flex-wrap gap-2">
-                                            {pkg.category.map((category, index) => {
-                                                const badgeColors = ['bg-amber-200', 'bg-teal-300', 'bg-pink-300', 'bg-blue-200', 'bg-green-200', 'bg-purple-200'];
-                                                return (
-                                                    <span
-                                                        key={index}
-                                                        className={`${badgeColors[index % badgeColors.length]} text-gray-700 text-xs font-semibold px-3 py-1 rounded-full`}
-                                                    >
-                                                        {category}
-                                                    </span>
-                                                );
-                                            })}
-                                        </div>
-
-                                        {/* Status/Date Section */}
-                                        <div className="flex items-center justify-between mb-6">
-                                            <div>
-                                                <p className="text-orange-500 font-bold text-sm">Ditutup :</p>
-                                                <p className="text-gray-700 font-semibold text-sm">31 Januari 2026</p>
+                                            {/* Category Badges */}
+                                            <div className="mb-6 flex flex-wrap gap-2">
+                                                {pkg.category.map((category, index) => {
+                                                    const badgeColors = ['bg-amber-200', 'bg-teal-300', 'bg-pink-300', 'bg-blue-200', 'bg-green-200', 'bg-purple-200'];
+                                                    return (
+                                                        <span
+                                                            key={index}
+                                                            className={`${badgeColors[index % badgeColors.length]} text-gray-700 text-xs font-semibold px-3 py-1 rounded-full`}
+                                                        >
+                                                            {category}
+                                                        </span>
+                                                    );
+                                                })}
                                             </div>
-                                            {/* Button */}
-                                            <button
-                                                type="button"
-                                                className="w-auto bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-lg transition"
-                                            >
-                                                {pkg.price}
-                                            </button>
-                                            <dialog className="modal">
-                                                <form method="dialog" className="modal-box">
-                                                    <h3 className="font-bold text-lg">Hello!</h3>
-                                                    <p className="py-4">Press ESC key or click outside to close</p>
-                                                </form>
-                                            </dialog>
+
+                                            {/* Status/Date Section */}
+                                            <div className="flex items-center justify-between gap-4">
+                                                <div>
+                                                    <p className="text-orange-500 font-bold text-sm">Ditutup :</p>
+                                                    <p className="text-gray-700 font-semibold text-sm">31 Januari 2026</p>
+                                                </div>
+                                                <button
+                                                    onClick={() => setOpenDialog(pkg.id)}
+                                                    className="w-auto bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded-lg transition"
+                                                >
+                                                    {pkg.price}
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+
+                                    {/* Dialog Content */}
+                                    <DialogContent className="sm:max-w-md bg-stone-50">
+                                        <div className="space-y-4">
+                                            {/* Orange Header with Image */}
+                                            <div className="bg-orange-400 -mx-6 -mt-6 mb-4">
+                                                <img
+                                                    src="/assets/images/test2.png"
+                                                    alt={pkg.name}
+                                                    className="w-full h-48 object-cover"
+                                                />
+                                            </div>
+                                            <h2 className="text-xl font-bold text-orange-500">{pkg.name}</h2>
+                                            {/* Category Badges */}
+                                            <div className="flex flex-wrap gap-2">
+                                                {pkg.category.map((category, index) => {
+                                                    const badgeColors = ['bg-amber-200', 'bg-teal-300', 'bg-pink-300', 'bg-blue-200', 'bg-green-200', 'bg-purple-200'];
+                                                    return (
+                                                        <span
+                                                            key={index}
+                                                            className={`${badgeColors[index % badgeColors.length]} text-gray-700 text-xs font-semibold px-2 py-1 rounded-full`}
+                                                        >
+                                                            {category}
+                                                        </span>
+                                                    );
+                                                })}
+                                            </div>
+
+                                            {/* Details Grid */}
+                                            <div className="grid grid-cols-2 gap-4 py-4">
+                                                <div className="flex items-center gap-2">
+                                                    <Archive className="w-5 h-5 text-orange-500" />
+                                                    <div>
+                                                        <p className="text-sm font-semibold text-gray-600">1 Try Out</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <Timer className="w-5 h-5 text-orange-500" />
+                                                    <div>
+                                                        <p className="text-sm font-semibold text-gray-600">50 Menit</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <FileText className="w-5 h-5 text-orange-500" />
+                                                    <div>
+                                                        <p className="text-sm font-semibold text-gray-600">25 Soal</p>
+                                                    </div>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <FileIcon className="w-5 h-5 text-orange-500" />
+                                                    <div>
+                                                        <p className="text-sm font-semibold text-gray-600">15 Attempt</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Due Date */}
+                                            <div className="bg-gray-50 p-3 rounded">
+                                                <p className="text-xs text-red-600 font-semibold">Ditutup :</p>
+                                                <p className="text-sm text-gray-700 font-semibold">31 Januari 2026</p>
+                                            </div>
+
+                                            {/* Price */}
+                                            <div className="text-right">
+                                                <p className="text-2xl font-bold text-gray-800">{pkg.price}</p>
+                                            </div>
+
+                                            {/* Dialog Footer Buttons */}
+                                            <DialogFooter className="flex gap-2">
+                                                <button
+                                                    onClick={() => setOpenDialog(null)}
+                                                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-50 transition"
+                                                >
+                                                    Batal
+                                                </button>
+                                                <button
+                                                    onClick={handleBuyTryout}
+                                                    className="flex-1 bg-red-700 hover:bg-red-800 text-white font-semibold py-2 px-4 rounded-lg transition flex items-center justify-center gap-2"
+                                                >
+                                                    <ShoppingCart size={18} />
+                                                    Beli Sekarang
+                                                </button>
+                                            </DialogFooter>
+                                        </div>
+                                    </DialogContent>
+                                </Dialog>
                             ))}
                         </div>
                     </section>

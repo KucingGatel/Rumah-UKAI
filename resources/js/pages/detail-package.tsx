@@ -4,8 +4,29 @@ import { useState, useEffect, useRef } from 'react';
 import Navbar from '@/components/navbar';
 import { NavFooter } from '@/components/nav-footer';
 import { Archive, File, FilesIcon, FileStack, FileText, Search, Timer } from 'lucide-react';
+import { index } from '@/actions/Laravel/Fortify/Http/Controllers/RecoveryCodeController';
+
+interface Package {
+    id: number;
+    image: string;
+    name: string;
+    price: string;
+    category: string[];
+    subjects: string[];
+    amount: string;
+    question: string;
+    duration: string;
+    attemp: string;
+    closed: string;
+}
+
+interface DetailPageProps {
+    package: Package;
+    packages: Package[];
+}
 
 export default function DetailPackage() {
+    const { package: currentPackage, packages } = usePage<SharedData & DetailPageProps>().props;
     const { auth } = usePage<SharedData>().props;
     const [scrollY, setScrollY] = useState(0);
     const heroRef = useRef<HTMLDivElement>(null);
@@ -19,70 +40,24 @@ export default function DetailPackage() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const packages = [
-        {
-            id: 1,
-            image: '/assets/images/test2.png',
-            name: 'Paket Gratis Februari',
-            price: 'Gratis',
-            category: ['Free', 'Klinis', 'Farmateknologi'],
-            subjects: ['Hapalan klinis', 'Farmakoekonomi', 'Manajemen Farmasi', 'Perhitungan Industri'],
-            amount: '10 Try Out',
-            question: '100 Soal',
-            duration: '120 Menit/Try Out',
-            attemp: '3 Attemp/Try Out',
-            closed: '31 Januari 2026',
-        },
-        {
-            id: 2,
-            image: '/assets/images/test2.png',
-            name: 'Paket Silver',
-            price: 'Rp 599.000',
-            category: ['Akses 150+ Video', 'Latihan Soal Lengkap', 'Live Session 2x/bulan', 'Support Priority'],
-            subjects: ['Hapalan klinis', 'Farmakoekonomi', 'Manajemen Farmasi', 'Perhitungan Industri'],
-            amount: '10 Try Out',
-            question: '100 Soal',
-            duration: '120 Menit/Try Out',
-            attemp: '3 Attemp/Try Out',
-            closed: '31 Januari 2026',
-        },
-        {
-            id: 3,
-            image: '/assets/images/test2.png',
-            name: 'Paket Gold',
-            price: 'Rp 999.000',
-            category: ['Akses 300+ Video', 'Latihan Soal Premium', 'Live Session 4x/bulan', 'Mentor 1:1', 'Sertifikat'],
-            subjects: ['Hapalan klinis', 'Farmakoekonomi', 'Manajemen Farmasi', 'Perhitungan Industri'],
-            amount: '10 Try Out',
-            question: '100 Soal',
-            duration: '120 Menit/Try Out',
-            attemp: '3 Attemp/Try Out',
-            closed: '31 Januari 2026',
-        },
-        {
-            id: 4,
-            image: '/assets/images/test2.png',
-            name: 'Paket Platinum',
-            price: 'Rp 1.499.000',
-            category: ['Akses Semua Video', 'Soal Unlimited', 'Live Session Unlimited', 'Mentor 1:1', 'Sertifikat', 'Akses Selamanya'],
-            subjects: ['Hapalan klinis', 'Farmakoekonomi', 'Manajemen Farmasi', 'Perhitungan Industri'],
-            amount: '10 Try Out',
-            question: '100 Soal',
-            duration: '120 Menit/Try Out',
-            attemp: '3 Attemp/Try Out',
-            closed: '31 Januari 2026',
-        },
-    ];
+    const handlepackage = () => {
+        if (!auth.user) {
+            alert('Anda harus login terlebih dahulu');
+            window.location.href = '/login';
+        } else {
+            window.location.href = `/checkout/${currentPackage.id}`;
+        }
+    }
 
     return (
         <>
-            <Head title="Paket Rumah UKAI - Simulasi Ujian & Try Out Terbaik" />
+            <Head title={`${currentPackage.name}`} />
             <div className="min-h-screen font-poppins bg-stone-50">
                 <Navbar />
 
                 {/* Hero Section */}
                 <img
-                    src={packages[0].image}
+                    src={currentPackage.image}
                     className='bg-orange-400/80 object-cover relative overflow-hidden w-full h-100'
                     style={{
                         transform: `translateY(${scrollY * 0.5}px)`,
@@ -96,9 +71,9 @@ export default function DetailPackage() {
                             <div className='grid grid-cols-1 lg:grid-cols-3 gap-10'>
                                 {/* details */}
                                 <section className='lg:col-span-2'>
-                                    <h2 className="text-3xl sm:text-4xl mb-6 font-bold text-orange-400" >{packages[0].name}</h2>
+                                    <h2 className="text-3xl sm:text-4xl mb-6 font-bold text-orange-400" >{currentPackage.name}</h2>
                                     <div className="mb-6 flex flex-wrap gap-2">
-                                        {packages[0].category.map((category, index) => {
+                                        {currentPackage.category.map((category, index) => {
                                             const badgeColors = ['bg-amber-200', 'bg-teal-300', 'bg-pink-300', 'bg-blue-200', 'bg-green-200', 'bg-purple-200'];
                                             return (
                                                 <span
@@ -110,23 +85,23 @@ export default function DetailPackage() {
                                             );
                                         })}
                                     </div>
-                                    <p className="text-gray-600 font-light text-justify mb-6">{packages[0].subjects.join(', ')}</p>
+                                    <p className="text-gray-600 font-light text-justify mb-6">{currentPackage.subjects.join(', ')}</p>
                                     <div className="flex flex-col sm:flex-row sm:items-center gap-8">
                                         <div className='flex items-center gap-3'>
                                             <Archive size={30} className='text-amber-800' />
-                                            <p className='text-amber-800 font-semibold text-base'>{packages[0].amount}</p>
+                                            <p className='text-amber-800 font-semibold text-base'>{currentPackage.amount}</p>
                                         </div>
                                         <div className='flex items-center gap-3'>
                                             <FileText size={30} className='text-amber-800' />
-                                            <p className='text-amber-800 font-semibold text-base'>{packages[0].question}</p>
+                                            <p className='text-amber-800 font-semibold text-base'>{currentPackage.question}</p>
                                         </div>
                                         <div className='flex items-center gap-3'>
                                             <Timer size={30} className='text-amber-800' />
-                                            <p className='text-amber-800 font-semibold text-base'>{packages[0].duration}</p>
+                                            <p className='text-amber-800 font-semibold text-base'>{currentPackage.duration}</p>
                                         </div>
                                         <div className='flex items-center gap-3'>
                                             <FilesIcon size={30} className='text-amber-800' />
-                                            <p className='text-amber-800 font-semibold text-base'>{packages[0].attemp}</p>
+                                            <p className='text-amber-800 font-semibold text-base'>{currentPackage.attemp}</p>
                                         </div>
                                     </div>
                                 </section>
@@ -134,14 +109,18 @@ export default function DetailPackage() {
                                 <section className='lg:col-span-1'>
                                     <div className="bg-gray-500 rounded-lg p-6 flex flex-col gap-6 sticky top-24">
                                         <h3 className="text-lg font-light text-stone-50">Harga</h3>
-                                        <h1 className="text-3xl font-bold text-stone-50">{packages[0].price}</h1>
-                                        <button className="w-full bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-6 rounded-lg transition">
+                                        <h1 className="text-3xl font-bold text-stone-50">{currentPackage.price}</h1>
+                                        <button
+                                            onClick={handlepackage}
+                                            className="w-full bg-red-700 hover:bg-red-800 text-white font-bold py-3 px-6 rounded-lg transition">
                                             Pilih Paket
                                         </button>
-                                        <button className="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-lg transition">
-                                            Pelajari Lebih Lanjut
-                                        </button>
-                                        <p className='text-stone-50'>Ditutup:<br />{packages[0].closed}</p>
+                                        <Link href="/packages">
+                                            <button className="w-full bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-6 rounded-lg transition">
+                                                Lihat lainnya
+                                            </button>
+                                        </Link>
+                                        <p className='text-stone-50'>Ditutup:<br />{currentPackage.closed}</p>
                                     </div>
                                 </section>
                             </div>

@@ -4,8 +4,22 @@ import { useState, useEffect, useRef } from 'react';
 import Navbar from '@/components/navbar';
 import { NavFooter } from '@/components/nav-footer';
 import { Search } from 'lucide-react';
+import blog from './admin/blog';
+
+interface Blog {
+    id: number;
+    cover: string;
+    title: string;
+    description: string;
+}
+
+interface DetailPageProps {
+    blog: Blog;
+    blogs: Blog[];
+}
 
 export default function Blog() {
+    const { blog: currentBlog, blogs } = usePage<SharedData & DetailPageProps>().props;
     const { auth } = usePage<SharedData>().props;
     const [scrollY, setScrollY] = useState(0);
     const heroRef = useRef<HTMLDivElement>(null);
@@ -18,27 +32,6 @@ export default function Blog() {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-
-    const blogPosts = [
-        {
-            id: 1,
-            cover: '/assets/images/test1.png',
-            title: 'Judul Artikel 1',
-            description: 'Lorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sed Lorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sedLorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sedLorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sedLorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sed.',
-        },
-        {
-            id: 2,
-            cover: '/assets/images/test2.png',
-            title: 'Judul Artikel 2',
-            description: 'Lorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sed Lorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sedLorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sedLorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sedLorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sed.',
-        },
-        {
-            id: 3,
-            cover: '/assets/images/test2.png',
-            title: 'Judul Artikel 3',
-            description: 'Lorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sed Lorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sedLorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sedLorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sedLorem ipsum dolor sit amet consectetur. Morbi velit feugiat sit volutpat leo sed.',
-        }
-    ];
 
     return (
         <>
@@ -81,7 +74,7 @@ export default function Blog() {
                 <div className="relative bg-stone-50 -mt-12 pt-12">
                     {/* Content Section */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                        {blogPosts.map((post) => (
+                        {blogs.map((post) => (
                             <div key={post.id} className="bg-white rounded-lg shadow-md overflow-hidden">
                                 <img src={post.cover} alt={post.title} className="w-full h-48 object-cover" />
                                 <div className="p-8">
@@ -89,7 +82,7 @@ export default function Blog() {
                                     <p className="text-gray-600 font-light text-justify">{post.description}</p>
                                 </div>
                                 <div className="p-8 pt-0 flex justify-end">
-                                    <Link href={`/blog/${post.id}`} className="text-gray-600 font-semibold hover:underline">Baca Selengkapnya</Link>
+                                    <Link href={`/blogdetail/${post.id}`} className="text-gray-600 font-semibold hover:underline">Baca Selengkapnya</Link>
                                 </div>
                             </div>
                         ))}
